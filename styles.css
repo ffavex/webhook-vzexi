@@ -1,41 +1,45 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+/* Full-height scrolling */
 body, html {
     height: 100%;
     margin: 0;
-    overflow: hidden;
+    overflow: auto;
+    font-family: Arial, sans-serif;
+    color: #ffffff;
 }
 
-#particles-js {
-    position: fixed;
+/* Background gradient animation */
+body::before {
+    content: '';
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Layer particles behind everything else */
-}
-
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
     background: linear-gradient(120deg, #ff0000, #2b2b2b, #ff0000);
     background-size: 300% 300%;
     animation: gradientFlow 6s ease infinite;
-    z-index: -2; /* Layer gradient behind particles */
+    z-index: -2;
 }
 
-/* Tools grid styling */
-.tools-grid {
+/* Particles container */
+#particles-js {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none; /* Ensures particles don’t block scrolling or interaction */
+}
+
+/* Tools grid layout */
+.main-content {
     position: relative;
-    z-index: 1; /* Brings grid content above particles */
+    z-index: 1;
+    padding: 20px;
+}
+
+.tools-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
@@ -46,99 +50,49 @@ body::before {
     border-radius: 8px;
 }
 
-.content {
-    position: relative;
-    z-index: 1;
-}
-
-.tools-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    background: rgba(43, 43, 43, 0.8); /* Semi-transparent background for readability */
-    border-radius: 8px;
-}
-
 .tool {
-    background-color: #343434;
-    padding: 15px;
+    background-color: #333;
+    padding: 20px;
     border-radius: 8px;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 200px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .tool:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+    background-color: #444;
 }
 
 .status {
-    font-size: 0.9em;
-    font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #d3d3d3;
+    margin-top: 10px;
+    font-size: 14px;
 }
 
-.status-dot {
-    height: 10px;
-    width: 10px;
-    border-radius: 50%;
-    margin-right: 8px;
-}
+/* Status indicators */
+.working-dot { color: green; }
+.maintenance-dot { color: yellow; }
+.not-working-dot { color: red; }
 
-.working-dot {
-    background-color: #4caf50;
-}
-
-.maintenance-dot {
-    background-color: #ffeb3b;
-}
-
-.not-working-dot {
-    background-color: #f44336;
-}
-
+/* Button styling */
 .action-btn {
-    background-color: #4caf50;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: green;
     border: none;
-    color: white;
-    padding: 10px 15px;
-    font-size: 1em;
-    font-weight: bold;
-    border-radius: 5px;
+    color: #fff;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
+    transition: background-color 0.3s ease;
 }
 
 .action-btn:hover {
-    background-color: #388e3c;
-    transform: scale(1.05);
+    background-color: darkgreen;
 }
 
-/* Animated Gradient Background */
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(120deg, #ff0000, #2b2b2b, #ff0000);
-    background-size: 300% 300%;
-    animation: gradientFlow 6s ease infinite;
-    z-index: -2;
-}
-
-/* Gradient Animation Keyframes */
+/* Gradient animation */
 @keyframes gradientFlow {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
