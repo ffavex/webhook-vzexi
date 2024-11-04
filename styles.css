@@ -38,24 +38,30 @@ body {
 }
 
 .status {
-    display: inline-block;
-    padding: 5px 10px;
     font-size: 0.9em;
     font-weight: bold;
-    border-radius: 4px;
+    display: flex;
+    align-items: center;
     margin-bottom: 10px;
+    color: #d3d3d3;
 }
 
-.working {
+.status-dot {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.working-dot {
     background-color: #4caf50; /* Green for working */
 }
 
-.maintenance {
+.maintenance-dot {
     background-color: #ffeb3b; /* Yellow for maintenance */
-    color: #333;
 }
 
-.not-working {
+.not-working-dot {
     background-color: #f44336; /* Red for not working */
 }
 
