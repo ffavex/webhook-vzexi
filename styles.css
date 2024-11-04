@@ -4,10 +4,24 @@
     box-sizing: border-box;
 }
 
-body {
+body, html {
+    height: 100%;
+    overflow: hidden;
     font-family: Arial, sans-serif;
-    background-color: #2b2b2b;
+    background: #2b2b2b;
     color: #f0f0f0;
+}
+
+#particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Ensures particles stay behind content */
+}
+
+.content {
+    position: relative;
+    z-index: 1;
 }
 
 .tools-grid {
@@ -15,30 +29,27 @@ body {
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(43, 43, 43, 0.8); /* Semi-transparent background for readability */
+    border-radius: 8px;
 }
 
 .tool {
     background-color: #343434;
     padding: 15px;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 200px; /* Fixed height for consistent grid */
+    height: 200px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.tool h2 {
-    font-size: 1.25em;
-    color: #ffffff;
-    margin-bottom: 10px;
-}
-
-.tool p {
-    font-size: 1em;
-    color: #d3d3d3;
-    margin-bottom: 10px;
+.tool:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
 }
 
 .status {
@@ -48,7 +59,6 @@ body {
     align-items: center;
     justify-content: center;
     color: #d3d3d3;
-    margin-bottom: auto; /* Keeps the button aligned at the bottom */
 }
 
 .status-dot {
@@ -59,15 +69,15 @@ body {
 }
 
 .working-dot {
-    background-color: #4caf50; /* Green for working */
+    background-color: #4caf50;
 }
 
 .maintenance-dot {
-    background-color: #ffeb3b; /* Yellow for maintenance */
+    background-color: #ffeb3b;
 }
 
 .not-working-dot {
-    background-color: #f44336; /* Red for not working */
+    background-color: #f44336;
 }
 
 .action-btn {
@@ -79,10 +89,31 @@ body {
     font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: auto; /* Ensures the button stays at the bottom */
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 .action-btn:hover {
     background-color: #388e3c;
+    transform: scale(1.05);
+}
+
+/* Animated Gradient Background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(120deg, #ff0000, #2b2b2b, #ff0000);
+    background-size: 300% 300%;
+    animation: gradientFlow 6s ease infinite;
+    z-index: -2;
+}
+
+/* Gradient Animation Keyframes */
+@keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
