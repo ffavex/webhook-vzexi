@@ -3,253 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Remedy.Tools</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #2b2b2b;
-            color: #ffffff;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #343434;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-        h1 {
-            text-align: center;
-            color: #e91e63;
-        }
-        .input-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="text"], input[type="number"], textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #555;
-            border-radius: 4px;
-            background-color: #222;
-            color: #fff;
-        }
-        textarea {
-            height: 100px;
-        }
-        .btn {
-            background-color: #e91e63;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-right: 10px;
-        }
-        .btn:hover {
-            background-color: #d81b60;
-        }
-        .stop {
-            background-color: #ff5722;
-        }
-        .stop:hover {
-            background-color: #e64a19;
-        }
-        .status {
-            margin-top: 20px;
-            text-align: center;
-        }
-    </style>
+    <title>Webhook Spammer</title>
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Remedy.Tools Webhook Poster</h1>
-        <form id="webhookForm">
-            <div class="input-group">
-                <label for="webhook">Webhook URL:</label>
-                <input type="text" id="webhook" placeholder="Enter Webhook URL" required>
-            </div>
-            <div class="input-group">
-                <label for="username">Username:</label>
-                <input type="text" id="username" placeholder="Enter Username" required>
-            </div>
-            <div class="input-group">
-                <label for="avatar_url">Avatar URL:</label>
-                <input type="text" id="avatar_url" placeholder="Enter Avatar URL" required>
-            </div>
-            <div class="input-group">
-                <label for="content">Message Content:</label>
-                <textarea id="content" placeholder="Enter your message here" required></textarea>
-            </div>
-            <div class="input-group">
-                <label for="interval">Message Interval (ms):</label>
-                <input type="number" id="interval" placeholder="Enter interval in milliseconds" required>
-            </div>
-            <button type="button" id="postButton" class="btn">Send Message</button>
-            <button type="button" id="stopButton" class="btn stop">Stop Posting</button>
-        </form>
-        <div id="statusMessage" class="status"></div>
-    </div>
+    <h1>Webhook Spammer with Proxies</h1>
+    <form id="webhookForm">
+        <label for="webhook">Webhook URL:</label>
+        <input type="text" id="webhook" required><br>
 
-    <script>
-        let postingInterval;
-        let isPosting = false;
-        const proxies = [
-            '104.207.36.42:3128',
-'156.228.0.201:3128',
-'156.228.190.27:3128',
-'104.207.34.172:3128',
-'156.228.85.33:3128',
-'156.253.173.90:3128',
-'154.94.12.178:3128',
-'156.228.103.154:3128',
-'156.253.173.130:3128',
-'45.201.10.119:3128',
-'156.228.91.176:3128',
-'156.228.90.107:3128',
-'156.228.111.217:3128',
-'156.228.84.100:3128',
-'156.240.99.126:3128',
-'156.228.87.149:3128',
-'156.228.171.102:3128',
-'156.228.80.177:3128',
-'156.233.86.183:3128',
-'154.213.203.69:3128',
-'104.207.51.25:3128',
-'156.253.166.61:3128',
-'156.228.94.46:3128',
-'156.253.171.56:3128',
-'104.167.28.121:3128',
-'156.228.112.153:3128',
-'156.228.87.123:3128',
-'156.228.115.37:3128',
-'104.167.29.123:3128',
-'104.207.61.174:3128',
-'156.228.107.83:3128',
-'156.228.185.64:3128',
-'156.233.91.219:3128',
-'104.207.52.24:3128',
-'156.253.167.6:3128',
-'156.228.0.108:3128',
-'156.228.190.77:3128',
-'154.213.195.124:3128',
-'104.207.62.54:3128',
-'156.228.109.255:3128',
-'156.253.165.253:3128',
-'156.228.98.158:3128',
-'104.207.38.244:3128',
-'156.228.113.83:3128',
-'156.228.77.11:3128',
-'104.207.32.81:3128',
-'156.228.83.222:3128',
-'104.207.42.238:3128',
-'104.207.41.151:3128',
-'156.233.86.96:3128',
-'156.233.91.50:3128',
-'156.228.89.132:3128',
-'104.207.33.147:3128',
-'156.228.104.85:3128',
-'156.228.111.228:3128',
-'156.228.114.54:3128',
-'104.207.41.132:3128',
-'156.233.85.252:3128',
-'154.213.195.201:3128',
-'156.228.106.88:3128',
-'156.253.171.93:3128',
-'45.202.79.27:3128',
-'156.228.81.239:3128',
-'104.207.44.32:3128',
-'156.228.181.147:3128',
-'156.253.176.189:3128',
-'156.228.125.33:3128',
-'104.207.37.97:3128',
-'156.228.100.154:3128',
-'104.207.60.42:3128',
-'156.233.87.29:3128',
-'156.228.125.96:3128',
-'156.228.101.178:3128',
-'156.228.185.60:3128',
-'104.167.25.79:3128',
-'104.207.47.112:3128',
-'156.253.174.121:3128',
-'156.253.179.193:3128',
-'156.253.179.2:3128',
-'156.233.90.56:3128',
-'156.233.89.160:3128',
-'104.207.63.213:3128',
-'104.207.56.203:3128',
-'156.228.181.204:3128',
-'154.213.203.231:3128',
-'104.207.52.168:3128',
-'156.228.182.77:3128',
-'156.228.94.126:3128',
-'154.213.194.241:3128',
-'156.228.92.116:3128',
-'156.228.83.15:3128',
-'104.207.36.186:3128',
-'156.228.80.248:3128',
-'156.253.175.177:3128',
-'104.207.55.197:3128',
-'154.213.203.77:3128',
-'104.207.52.75:3128',
-'156.228.113.33:3128',
-'156.228.176.92:3128',
-'104.207.54.196:3128'
-            // Add more proxies as needed
-        ];
-        let currentProxyIndex = 0;
+        <label for="avatarUrl">Avatar URL:</label>
+        <input type="text" id="avatarUrl" required><br>
 
-        document.getElementById('postButton').addEventListener('click', () => {
-            const webhookUrl = document.getElementById('webhook').value;
-            const username = document.getElementById('username').value;
-            const avatarUrl = document.getElementById('avatar_url').value;
-            const content = document.getElementById('content').value;
-            const interval = parseInt(document.getElementById('interval').value);
+        <label for="name">Name:</label>
+        <input type="text" id="name" required><br>
 
-            if (!isPosting && proxies.length > 0) {
-                isPosting = true;
-                document.getElementById('statusMessage').innerText = "Started Posting...";
+        <label for="content">Content:</label>
+        <textarea id="content" required></textarea><br>
 
-                postingInterval = setInterval(() => {
-                    const proxy = proxies[currentProxyIndex];
+        <label for="interval">Interval (ms):</label>
+        <input type="number" id="interval" required><br>
 
-                    fetch('/postWebhook', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ webhookUrl, username, avatarUrl, content, proxy })
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            console.log('Message sent');
-                        } else if (response.status === 429) { // Rate limit error
-                            console.warn('Rate limit reached, switching to next proxy.');
-                            currentProxyIndex = (currentProxyIndex + 1) % proxies.length; // Switch to the next proxy
-                        } else {
-                            console.error('Error sending message:', response.statusText);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-                }, interval);
-            } else {
-                console.warn("Already posting or no proxies available.");
-            }
-        });
+        <button type="submit">Start Spamming</button>
+    </form>
 
-        document.getElementById('stopButton').addEventListener('click', () => {
-            if (isPosting) {
-                clearInterval(postingInterval);
-                isPosting = false;
-                document.getElementById('statusMessage').innerText = "Stopped Posting.";
-            }
-        });
-    </script>
+    <p id="status"></p>
 </body>
 </html>
