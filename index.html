@@ -100,6 +100,13 @@
     <script>
         let postingInterval;
         let isPosting = false;
+        const proxies = [
+            'proxy1:port', // Replace with your actual proxies
+            'proxy2:port',
+            'proxy3:port'
+            // Add more proxies as needed
+        ];
+        let currentProxyIndex = 0;
 
         document.getElementById('postButton').addEventListener('click', () => {
             const webhookUrl = document.getElementById('webhook').value;
@@ -108,19 +115,24 @@
             const content = document.getElementById('content').value;
             const interval = parseInt(document.getElementById('interval').value);
 
-            if (!isPosting) {
+            if (!isPosting && proxies.length > 0) {
                 isPosting = true;
                 document.getElementById('statusMessage').innerText = "Started Posting...";
 
                 postingInterval = setInterval(() => {
+                    const proxy = proxies[currentProxyIndex];
+
                     fetch('/postWebhook', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ webhookUrl, username, avatarUrl, content })
+                        body: JSON.stringify({ webhookUrl, username, avatarUrl, content, proxy })
                     })
                     .then(response => {
                         if (response.ok) {
                             console.log('Message sent');
+                        } else if (response.status === 429) { // Rate limit error
+                            console.warn('Rate limit reached, switching to next proxy.');
+                            currentProxyIndex = (currentProxyIndex + 1) % proxies.length; // Switch to the next proxy
                         } else {
                             console.error('Error sending message:', response.statusText);
                         }
@@ -129,6 +141,8 @@
                         console.error('Error:', error);
                     });
                 }, interval);
+            } else {
+                console.warn("Already posting or no proxies available.");
             }
         });
 
